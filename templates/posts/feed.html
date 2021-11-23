@@ -1,4 +1,12 @@
-{% for pokemon in pokemons_list %}
-    <h1>{{ pokemon.name }}</h1>
-    <img src="{{pokemon.photo}}" alt="">    
-{% endfor %}
+{% extends 'base.html' %}
+
+{% block head_content %}
+<title>Pokegram feed</title>
+{% endblock %}
+
+{% block container %}
+    {% for pokemon in pokemons_list %}
+        <h1>{{ pokemon.name }}</h1>
+        <img src="{{pokemon.photo}}" alt="">    
+    {% endfor %}
+{% endblock %}
