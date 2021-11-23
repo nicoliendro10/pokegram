@@ -1,9 +1,10 @@
+from django.contrib.auth.decorators import login_required
 import requests
 import json
 
 from django.shortcuts import render
 
-
+@login_required
 def list_posts(request):
     pokemons_list = []
     pokemons_request = requests.get("https://pokeapi.co/api/v2/pokemon?limit=5")
