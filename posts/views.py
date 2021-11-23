@@ -18,5 +18,5 @@ def list_posts(request):
             'weight': pokemon_info_dict['weight']
         }
         pokemons_list.append(pokemon_data_dict)
-    return render(request, 'feed.html', {'pokemons_list': pokemons_list})
+    return render(request, 'posts/feed.html', {'pokemons_list': pokemons_list})
 
