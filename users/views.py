@@ -2,7 +2,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.contrib import messages
 from users.models import Profile
+from users.forms import ProfileForm
 
 from django.db.utils import IntegrityError
 
@@ -55,3 +57,33 @@ def signup(request):
         profile.save()
         return redirect('login')
     return render(request, 'users/signup.html')
+
+@login_required
+def update_profile(request):
+    profile = request.user.profile
+
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES)
+        if form.is_valid():
+            data = form.cleaned_data
+            profile.website = data['website']
+            profile.biography = data['biography']
+            profile.picture = data['picture']
+            profile.save()
+
+            message = 'Your profile has been updated'
+            messages.success(request, message)
+            
+            return redirect('profile')
+    else:
+        form = ProfileForm()
+
+    return render(
+        request=request, 
+        template_name='users/profile.html',
+        context={
+            'profile': profile,
+            'user': request.user,
+            'form': form
+        }
+    )

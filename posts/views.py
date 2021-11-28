@@ -21,3 +21,6 @@ def list_posts(request):
         pokemons_list.append(pokemon_data_dict)
     return render(request, 'posts/feed.html', {'pokemons_list': pokemons_list})
 
+@login_required
+def create_post(request):
+    pass
