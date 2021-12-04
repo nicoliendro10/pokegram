@@ -24,9 +24,6 @@ from users import views as users_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('hello-world/', local_views.hello_world),
-    path('test-object/', local_views.test_obj),
-    path('say-hi/<str:name>/<int:age>', local_views.say_hi),
 
     path('', posts_views.list_posts, name='feed'),
     path('posts/new', posts_views.create_post, name='create_post'),
