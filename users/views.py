@@ -2,13 +2,31 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.views.generic import DetailView
+from django.urls import reverse
 
+from django.contrib.auth.models import User
 
 from users.forms import ProfileForm
 from posts.forms import SignupForm
+from posts.models import Post
+
+class UserDetailView(DetailView):
+
+    template_name = 'users/detail.html'
+    slug_field = 'username'
+    slug_url_kwarg = 'username'
+    queryset = User.objects.all()
+    context_object_name = 'user'
 
 
-
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.get_object()
+        context['posts'] = Post.objects.filter(user=user).order_by('-created')
+        return context
+        
+        
 def login_view(request):
     if request.user.is_authenticated:
 	    return redirect('posts:feed')
@@ -51,7 +69,6 @@ def signup(request):
 
 @login_required
 def update_profile(request):
-    import pdb; pdb.set_trace()
     profile = request.user.profile
     print(profile)
     if request.method == 'POST':
@@ -65,8 +82,8 @@ def update_profile(request):
 
             message = 'Your profile has been updated'
             messages.success(request, message)
-            
-            return redirect('profile')
+            url = reverse('users:detail', kwargs={'username': request.user.username})
+            return redirect(url)
     else:
         form = ProfileForm()
 

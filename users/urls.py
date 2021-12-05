@@ -1,6 +1,6 @@
 from django.urls import path
-from django.views.generic import TemplateView
 from users import views
+from users.views import UserDetailView
 
 urlpatterns = [
     path(
@@ -24,8 +24,8 @@ urlpatterns = [
         name='profile'
     ),
     path(
-        route='profile/<str:username>/',
-        view=TemplateView.as_view(template_name='users/detail.html'),
+        route='<str:username>/',
+        view=UserDetailView.as_view(template_name='users/detail.html'),
         name='detail'
     ),
 ]
