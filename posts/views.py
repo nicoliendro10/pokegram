@@ -1,4 +1,6 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import ListView
 from django.shortcuts import redirect
 import requests
 import json
@@ -24,11 +26,14 @@ def generate_pokemons():
         pokemons_list.append(pokemon_data_dict)
     return render(request, 'posts/feed.html', {'pokemons_list': pokemons_list})
 
-@login_required
-def list_posts(request):
-    posts = Post.objects.all().order_by('-created')
+class PostsFeedView(LoginRequiredMixin, ListView):
 
-    return render(request, 'posts/feed.html', {'posts': posts})
+    template_name = 'posts/feed.html'
+    model = Post
+    ordering = ('-created')
+    paginate_by = 2
+    context_object_name = 'posts'
+
 
 @login_required
 def create_post(request):
