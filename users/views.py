@@ -11,14 +11,14 @@ from posts.forms import SignupForm
 
 def login_view(request):
     if request.user.is_authenticated:
-	    return redirect('feed')
+	    return redirect('posts:feed')
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
         if user:
             login(request, user)
-            return redirect('feed')
+            return redirect('posts:feed')
         else:
             error_message = {
                 'error' : 'Invalid username or password'
@@ -28,8 +28,9 @@ def login_view(request):
 
 @login_required
 def logout_view(request):
+    import pdb; pdb.set_trace()
     logout(request)
-    return redirect('login')
+    return redirect('users:login')
 
 def signup(request):
     if request.method == 'POST':
@@ -50,8 +51,9 @@ def signup(request):
 
 @login_required
 def update_profile(request):
+    import pdb; pdb.set_trace()
     profile = request.user.profile
-
+    print(profile)
     if request.method == 'POST':
         form = ProfileForm(request.POST, request.FILES)
         if form.is_valid():
