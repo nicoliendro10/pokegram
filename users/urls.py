@@ -5,22 +5,22 @@ from users.views import UserDetailView
 urlpatterns = [
     path(
         route = 'login/',
-        view= views.login_view, 
+        view= views.LoginView.as_view(), 
         name='login'
     ),
     path(
         route = 'logout/',
-        view= views.logout_view, 
+        view= views.LogoutView.as_view(), 
         name='logout'
     ),
     path(
         route = 'signup/',
-        view= views.signup, 
+        view= views.SignupView.as_view(), 
         name='signup'
     ),
     path(
         route = 'me/profile/',
-        view= views.update_profile,
+        view= views.UpdateProfileView.as_view(),
         name='profile'
     ),
     path(
