@@ -2,6 +2,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
 from django.shortcuts import redirect
+from django.urls import reverse_lazy
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import CreateView
 import requests
 import json
 
@@ -34,23 +37,21 @@ class PostsFeedView(LoginRequiredMixin, ListView):
     paginate_by = 2
     context_object_name = 'posts'
 
+class PostDetailView(LoginRequiredMixin, DetailView):
 
-@login_required
-def create_post(request):
-    if request.method == 'POST':
-        form = PostForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('posts:feed')
-    else:
-        form = PostForm()
+    template_name = 'posts/detail.html'
+    queryset = Post.objects.all()
+    context_object_name = 'post'
+
+class CreatePostView(LoginRequiredMixin, CreateView):
+
+    template_name = 'posts/new.html'
+    form_class = PostForm
+    success_url = reverse_lazy('posts:feed')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user'] = self.request.user
+        context['profile'] = self.request.user.profile
+        return context
     
-    return render(
-        request,
-        'posts/new.html',
-        context={
-            'form': form,
-            'user': request.user,
-            'profile': request.user.profile
-        }
-    )
