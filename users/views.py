@@ -45,23 +45,6 @@ def logout_view(request):
     logout(request)
     return redirect('users:login')
 
-def signup(request):
-    if request.method == 'POST':
-        form = SignupForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('login')
-    else:
-        form = SignupForm()
-    print("Form:")
-    print(form)
-    return render(
-        request=request,
-        template_name='users/signup.html',
-        context={'form': form}
-    )
-
-
 class SignupView(FormView):
 
     template_name = 'users/signup.html'

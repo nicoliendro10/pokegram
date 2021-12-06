@@ -11,7 +11,8 @@ class Profile(models.Model):
     picture = models.ImageField(
         upload_to='users/pictures',
         blank=True,
-        null=True
+        null=True,
+        default='../static/img/default-profile.png'
     )
 
     created = models.DateTimeField(auto_now_add=True)

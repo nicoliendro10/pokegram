@@ -18,6 +18,12 @@ class SignupForm(forms.Form):
             raise forms.ValidationError('Username is already in use.')
         return username
     
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if User.objects.filter(email__iexact=email).exists():
+            raise forms.ValidationError('A user has already registered using this email')
+        return email
+    
     def clean(self):
         """Verify password confirmation match."""
         data = super().clean()
