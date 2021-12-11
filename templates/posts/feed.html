@@ -13,7 +13,16 @@
             {% endfor %}
         </div>
     </div>
+{% if not posts %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h1>No hay publicaciones</h1>
+            </div>
+        </div>
+    </div>
+{% else %}
+    {% include "pagination.html" %}
+{% endif %}
 
-{% include "pagination.html" %}
-    
 {% endblock %}
