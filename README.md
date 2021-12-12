@@ -11,6 +11,8 @@ _These instructions will get you a copy of the project up and running on your lo
 
 _What things you need to install the software and how to install them_
 
+Clone this repository
+
 ```
 Da un ejemplo
 ```
